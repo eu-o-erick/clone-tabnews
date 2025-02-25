@@ -7,23 +7,23 @@ export default async function migrations(request, response) {
 
   if (!allowedMethods.includes(request.method)) {
     return response.status(405).json({
-      erro: `Method "${request.method}" not allowed`,
+      error: `Method "${request.method}" not allowed`,
     });
   }
 
   let dbClient;
 
-  const defaultMigrationOptions = {
-    dbClient,
-    dryRun: true,
-    dir: join("infra", "migrations"),
-    direction: "up",
-    verbose: true,
-    migrationsTable: "pgmigrations",
-  };
-
   try {
     dbClient = await database.getNewClient();
+
+    const defaultMigrationOptions = {
+      dbClient,
+      dryRun: true,
+      dir: join("infra", "migrations"),
+      direction: "up",
+      verbose: true,
+      migrationsTable: "pgmigrations",
+    };
 
     if (request.method === "GET") {
       const pendingMigrations = await migrationRunner(defaultMigrationOptions);
@@ -45,6 +45,6 @@ export default async function migrations(request, response) {
     console.error(error);
     throw response.status(405).end();
   } finally {
-    await dbClient?.end();
+    await dbClient.end();
   }
 }
