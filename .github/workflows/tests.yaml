@@ -4,8 +4,8 @@ on: pull_request
 
 jobs:
   jest:
-    name: Jest Ubunto
-    runs-on: ubunto-latest
+    name: Jest Ubuntu
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
