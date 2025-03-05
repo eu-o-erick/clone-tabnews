@@ -21,8 +21,6 @@ function runCommand(command, args = []) {
 
 async function runDev() {
   try {
-    stopServices = () => runCommand("npm", ["run", "services:stop"]);
-
     await runCommand("npm", ["run", "services:up"]);
 
     await runCommand("npm", ["run", "services:wait:database"]);
@@ -31,7 +29,10 @@ async function runDev() {
 
     await runCommand("next", ["dev"]);
   } catch (error) {
-    console.log("Erro durante o desenvolvimento, executando services:stop...");
+    console.error(
+      "Erro durante o desenvolvimento, executando services:stop...",
+      error,
+    );
   }
 }
 
